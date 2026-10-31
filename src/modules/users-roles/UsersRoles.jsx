@@ -1583,21 +1583,6 @@ const parseRolePermissions = (roleObj) => {
                 />
               </div>
 
-              {/* Branch */}
-              <div className="role-form-group">
-                <label>Branch / Location</label>
-                <input
-                  type="text"
-                  name="branch"
-                  autoComplete="off"
-                  className="role-input-control"
-                  placeholder="e.g. Chennai HQ"
-                  value={userFormData.branch}
-                  onChange={(e) => setUserFormData({ ...userFormData, branch: e.target.value })}
-                  disabled={currentView === 'view-user'}
-                />
-              </div>
-
               {/* ROLE: Chosen from defined system roles! */}
               <div className="role-form-group">
                 <label>Role *</label>
@@ -1618,23 +1603,6 @@ const parseRolePermissions = (roleObj) => {
                   ))}
                 </select>
                 <FieldError error={userErrors.role} />
-              </div>
-            </div>
-
-            <div className="inpage-user-grid-2col">
-              {/* Assigned Jobs */}
-              <div className="role-form-group">
-                <label>Assigned Jobs Scope</label>
-                <input
-                  type="text"
-                  name="assignedJobs"
-                  autoComplete="off"
-                  className="role-input-control"
-                  placeholder="e.g. All Company Jobs or Specific Roles"
-                  value={userFormData.assignedJobs}
-                  onChange={(e) => setUserFormData({ ...userFormData, assignedJobs: e.target.value })}
-                  disabled={currentView === 'view-user'}
-                />
               </div>
 
               {/* Account Status */}

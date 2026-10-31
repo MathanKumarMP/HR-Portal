@@ -707,6 +707,27 @@ export const CompanyProfile = () => {
           setCurrentView('list');
         } else {
           showToast(res?.message || 'Failed to update branch.', 'error');
+          if (res?.errors && typeof res.errors === 'object') {
+            setBranchFormErrors((prev) => ({ ...prev, ...res.errors }));
+          } else {
+            const msg = (res?.message || '').toLowerCase();
+            if (msg.includes('mobile') || msg.includes('phone')) {
+              setBranchFormErrors((prev) => ({
+                ...prev,
+                mobile: res?.message || 'Branch mobile number already in use.',
+              }));
+            } else if (msg.includes('email')) {
+              setBranchFormErrors((prev) => ({
+                ...prev,
+                email: res?.message || 'Branch email address already in use.',
+              }));
+            } else if (msg.includes('branch code') || msg.includes('code')) {
+              setBranchFormErrors((prev) => ({
+                ...prev,
+                branchCode: res?.message || 'Branch code already in use.',
+              }));
+            }
+          }
         }
       } else {
         // Defensive Pre-Flight Check: Verify branch limit before creating branch
@@ -765,11 +786,32 @@ export const CompanyProfile = () => {
               companyName: targetParent?.companyName || 'Main Company',
             });
           }
-          if (res?.message && res.message.toLowerCase().includes('already taken')) {
-            setBranchFormErrors((prev) => ({ ...prev, adminUsername: 'Username is already taken.' }));
-          }
-          if (res?.message && res.message.toLowerCase().includes('already exists')) {
-            setBranchFormErrors((prev) => ({ ...prev, branchCode: 'Branch code already in use.' }));
+
+          if (res?.errors && typeof res.errors === 'object') {
+            setBranchFormErrors((prev) => ({ ...prev, ...res.errors }));
+          } else {
+            const msg = (res?.message || '').toLowerCase();
+            if (msg.includes('mobile') || msg.includes('phone')) {
+              setBranchFormErrors((prev) => ({
+                ...prev,
+                mobile: res?.message || 'Branch mobile number already in use.',
+              }));
+            } else if (msg.includes('email')) {
+              setBranchFormErrors((prev) => ({
+                ...prev,
+                email: res?.message || 'Branch email address already in use.',
+              }));
+            } else if (msg.includes('username') || msg.includes('already taken')) {
+              setBranchFormErrors((prev) => ({
+                ...prev,
+                adminUsername: res?.message || 'Username is already taken.',
+              }));
+            } else if (msg.includes('branch code') || msg.includes('branchcode') || msg.includes('code')) {
+              setBranchFormErrors((prev) => ({
+                ...prev,
+                branchCode: res?.message || 'Branch code already in use.',
+              }));
+            }
           }
         }
       }
